@@ -1,0 +1,13 @@
+ul{
+    display:flex;
+}
+li{
+    
+   margin:20px;
+    justify-content:space-around;
+    background-color: cornflowerblue;
+    color: white;
+    padding:10px;
+    border-radius: 20%;
+}
+
