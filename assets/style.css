@@ -11,3 +11,8 @@ li{
     border-radius: 20%;
 }
 
+
+li:hover{
+    cursor:grab;
+}
+
