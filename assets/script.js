@@ -26,6 +26,10 @@ var questionBank = [question1, question2, question3]
 startButton.addEventListener("click", startGame);
 
 function displayQuestion () {
+    if (questionBank.length===0){
+        endGame();
+
+    }else{
 
 
     var thisQuestion = questionBank[Math.floor(Math.random()* questionBank.length)];
@@ -57,7 +61,7 @@ function displayQuestion () {
             wrongEl[i].addEventListener('click', answerWrong)}
     }
 
-    
+}
     
 
     
@@ -82,10 +86,23 @@ function displayQuestion () {
     }
 
     function resetQuestion(){
+        if (secondsLeft===0){
+            endGame();
+        } else {
         quizArea.innerHTML= "";
         displayQuestion();
     }   
+}
 
+function endGame(){
+    alert("Game Over");
+    var initials = prompt("enter your initials")
+    var highscores = document.createElement("h3");
+    highscores.textContent = initials + secondsLeft*100;
+    quizArea.appendChild(highscores);
+}
+    
+        
    
     
         
