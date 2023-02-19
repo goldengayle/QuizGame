@@ -2,7 +2,6 @@ var startButton = document.querySelector(".start-button");
 var quizArea = document.querySelector(".quiz-area");
 var timeEl = document.querySelector(".timer")
 var question =document.createElement("h2");
-var answerList = document.createElement("ul")
 var secondsLeft = 20;
 
 var question1 = {
@@ -27,11 +26,14 @@ var questionBank = [question1, question2, question3]
 startButton.addEventListener("click", startGame);
 
 function displayQuestion () {
+
+
     var thisQuestion = questionBank[Math.floor(Math.random()* questionBank.length)];
     var takeOut = questionBank.indexOf(thisQuestion);
     questionBank.splice(takeOut, 1);
     quizArea.appendChild(question);
     question.textContent = thisQuestion.question
+    var answerList = document.createElement("ul")
     quizArea.appendChild(answerList);
     for (i=0; i< 4; i++){
         var thisAnswer = thisQuestion.answers[Math.floor(Math.random()* thisQuestion.answers.length)];
@@ -55,7 +57,6 @@ function displayQuestion () {
             wrongEl[i].addEventListener('click', answerWrong)}
     }
 
-    //var answerEl = document.querySelectorAll("li");
     
     
 
@@ -66,6 +67,7 @@ function displayQuestion () {
             var goodJob = document.createElement("h1")
             goodJob.textContent = "Good Job";
             quizArea.appendChild(goodJob);
+            resetQuestion();
             
         } 
     function answerWrong(){
