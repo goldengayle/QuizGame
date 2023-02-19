@@ -1,12 +1,9 @@
 var startButton = document.querySelector(".start-button");
 var quizArea = document.querySelector(".quiz-area");
+var timeEl = document.querySelector(".timer")
 var question =document.createElement("h2");
 var answerList = document.createElement("ul")
-var answer1 = document.createElement("li");
-var answer2 = document.createElement("li");
-var answer3 = document.createElement("li");
-var answer4 = document.createElement("li");
-var answercount ;
+var secondsLeft = 20;
 
 var question1 = {
     question: "These are found in the nucleus and have a positive charge",
@@ -27,32 +24,7 @@ var question3 =  {
 }
 var questionBank = [question1, question2, question3]
 
-/*function shuffle(questionBank) {
- for (i=questionBank.length -1; i >0; i--){
-  var j = Math.floor(Math.random() * (i+1));
-  [questionBank[i], questionBank[j]] = [questionBank[j], questionBank[i]];
-  console.log(questionBank);
- }
- 
-}
-shuffle(questionBank);
-*/
-
-
-
-
-    //need to add attributes wrong and right
-
-   
-
-
-    
-
-    
-
-
-
-//hooseQuestion();
+startButton.addEventListener("click", startGame);
 
 function displayQuestion () {
     var thisQuestion = questionBank[Math.floor(Math.random()* questionBank.length)];
@@ -66,53 +38,95 @@ function displayQuestion () {
         if (thisAnswer === thisQuestion.rightAnswer){
             var answer = document.createElement("li");
             answer.textContent = thisAnswer;
-            answerList.appendChild(answer).setAttribute("class","right");
+            answerList.appendChild(answer).setAttribute("class","right answer");
            
         } else{
             var answer = document.createElement("li");
             answer.textContent = thisAnswer;
-            answerList.appendChild(answer);
+            answerList.appendChild(answer).setAttribute("class","wrong answer");
         }
         var takeout1 = thisQuestion.answers.indexOf(thisAnswer);
         thisQuestion.answers.splice(takeout1,1);}
+
+        var rightEl = document.querySelector(".right")
+        var wrongEl = document.querySelectorAll(".wrong")
+        rightEl.addEventListener('click',answerRight);
+        for (i=0 ; i < wrongEl.length; i++) {
+            wrongEl[i].addEventListener('click', answerWrong)}
     }
-    displayQuestion();
 
-    /* var theseAnswers = thisQuestion.answers[Math.floor(Math.random()*thisQuestion.answers.length)]
-    var right = thisQuestion.answers.indexOf(thisQuestion.rightAnswer);
-    thisQuestion.answers[right].setAttribute =("class", "right");
-    question.textContent = thisQuestion.question
-    answer1.textContent = thisQuestion.answers[0];
-    answer2.textContent = thisQuestion.answers[1];
-    answer3.textContent = thisQuestion.answers[2];
-    answer4.textContent = thisQuestion.answers[3];
-    for (i=0; i<thisQuestion.answers.length; i++){
-    if (thisQuestion.answers[i] === thisQuestion.rightAnswer){
-        thisQuestion.answers[i].setAttribute = "class", "right"
-    } }
-    quizArea.appendChild(question); 
-    quizArea.appendChild(answerList);
-    quizArea.appendChild(answer1);
-    quizArea.appendChild(answer2);
-    quizArea.appendChild(answer3);
-    quizArea.appendChild(answer4);
+    //var answerEl = document.querySelectorAll("li");
+    
+    
+
+    
+  
+     
+     function answerRight(){
+            var goodJob = document.createElement("h1")
+            goodJob.textContent = "Good Job";
+            quizArea.appendChild(goodJob);
+            
+        } 
+    function answerWrong(){
+            var badJob = document.createElement("h1")
+            badJob.textContent = "Bad Job";
+            quizArea.appendChild(badJob);
+            secondsLeft -=4;
+            resetQuestion();
+
+            
+        
+    }
+
+    function resetQuestion(){
+        quizArea.innerHTML= "";
+        displayQuestion();
+    }   
+
    
+    
+        
+    
+   
+
+   
+
+
+
+
+
+function startTimer() {
+    var timerInterval = setInterval(function (){
+       secondsLeft--; 
+       timeEl.textContent = secondsLeft +" seconds left";
+
+       if (secondsLeft === 0) {
+        clearInterval(timerInterval);
+        sendMessage();
+       }
+
+
+       }, 1000);
+    }
+
+    
+
+function sendMessage() {
+    timeEl.textContent ="";
+    var gameMessage = document.createElement("h1");
+    gameMessage.textContent = "Game Over";
+    quizArea.appendChild(gameMessage);
+
 }
-
-displayQuestion();
-console.log(questionBank);
-questionBank.splice(0, 1);
-console.log(questionBank.length);
-
 
 
 function startGame() {
     startButton.remove();
     //isWin = false;
-    timerCount = 10;
+    displayQuestion();
     startTimer();
-    shuffle();
-
+    
   }
 
-  startButton.addEventListener("click", startGame);*/
+  startButton.addEventListener("click", startGame);
