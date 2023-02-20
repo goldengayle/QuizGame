@@ -6,6 +6,14 @@ var timerInterval = "";
 var secondsLeft = 20;
 var highScores =document.querySelector(".highScores")
 var count=0;
+var questionsAnswered=0;
+var questionAmount = 3;
+/*var progress = document.querySelector(".progress")
+var questionSuccess = document.createElement("h3");
+questionSuccess.textContent("none");
+progress.appendChild(questionSuccess);*/
+
+
 
 var question1 = {
     question: "These are found in the nucleus and have a positive charge",
@@ -30,10 +38,9 @@ var questionBank = [question1, question2, question3];
 startButton.addEventListener("click", startGame);
 
 function displayQuestion () {
-    if(secondsLeft===0){
+    /*if(secondsLeft===0){
         endGame();
-    }else{
-
+    }else{*/
 
     var thisQuestion = questionBank[Math.floor(Math.random()* questionBank.length)];
     var takeOut = questionBank.indexOf(thisQuestion);
@@ -63,8 +70,6 @@ function displayQuestion () {
         for (i=0 ; i < wrongEl.length; i++) {
             wrongEl[i].addEventListener('click', answerWrong)}
     }
-}
-
 
     
 
@@ -72,14 +77,16 @@ function displayQuestion () {
   
      
      function answerRight(){
-            alert("You got it right!");
+            //questionSuccess.innerHTML("Correct!") 
             count++;
+            questionsAnswered++;
             console.log(count);
             resetQuestion();
             
         } 
     function answerWrong(){
-            alert("You got it wrong. You lost 4 seconds");
+           //questionSuccess.textContent("You got it wrong. You lost 4 seconds");
+           questionsAnswered++;
             secondsLeft -=4;
             resetQuestion();
 
@@ -88,16 +95,16 @@ function displayQuestion () {
     }
 
     function resetQuestion(){
-        if (questionBank.length ===0){
+       /* if (questionBank.length ===0){
             endGame();
-        }else{
+        }else{*/
         quizArea.innerHTML= "";
         displayQuestion();
-    }  } 
+    }  
 
 
 function endGame(){
-    alert("Game Over");
+    quizArea.innerHTML="";
     var initials = prompt("enter your initials")
     var score = secondsLeft*100*count
     timeEl.innerHTML="";
@@ -107,13 +114,12 @@ function endGame(){
     localStorage.setItem("initials", initials);
     localStorage.setItem("score", score);
     startButton.style.display = "block";
-    quizArea.innerHTML="";
     
     
-    
+    clearTimeout(startTimer);  
 }
     
-        
+   
    
     
         
@@ -131,8 +137,10 @@ function startTimer() {
        secondsLeft--; 
        timeEl.textContent = secondsLeft +" seconds left";
 
-       if (secondsLeft <= 0 || startButton.style.display ==="block") {
-       clearInterval(timerInterval);
+       if (secondsLeft <= 0 || questionsAnswered===questionAmount) {
+        quizArea.innerHTML="";
+        endGame();
+        clearInterval(timerInterval);
        timeEl.textContent="";
        
        }
@@ -146,13 +154,18 @@ function startTimer() {
 function startGame() {
     
     startButton.style.display ="none";
-    if (questionBank.length === 0){
+    if (questionBank.length !== questionAmount){
+        questionBank=[];
+        question1.answers =[];
+        question2.answers=[];
+        question3.answers=[];
         questionBank.push(question1, question2, question3);
         question1.answers.push("Proton", "Neutron", "Electron","Quark")
         question2.answers.push("different atomic numbers", "different numbers of neutrons","different numbers of protons","different numbers of electrons")
         question3.answers.push(5,8,9,13);
         secondsLeft=20;
         count=0;
+        questionsAnswered=0;
          displayQuestion();
         startTimer();
     } else{
