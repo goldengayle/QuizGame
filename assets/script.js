@@ -1,3 +1,4 @@
+//Set variables
 var startButton = document.querySelector(".start-button");
 var quizArea = document.querySelector(".quiz-area");
 var timeEl = document.querySelector(".timer")
@@ -19,12 +20,11 @@ progress.appendChild(gameProgress);
 var score ; 
 var initials="";
 var faveE="";
-
-var highScoreButton= document.querySelector(".hsButton")
-
+var submitButton= document.querySelector(".submitButton")
 
 
 
+//Set Questions
 var question1 = {
     question: "These are found in the nucleus and have a positive charge",
     answers: ["Proton", "Neutron", "Electron","Quark"],
@@ -52,8 +52,8 @@ var question4 = {
 
 var question5 ={
     question:"What is the charge on an atom with 10 protons and 8 electrons?",
-    answers:[+2, -1, +10, "Neutral"],
-    rightAnswer:+2
+    answers:["+2", "-1", "+10", "Neutral"],
+    rightAnswer:"+2"
 }
 
 var question6 ={
@@ -74,14 +74,12 @@ var question8 ={
     answers:["19, 19, F", "19, 20, F", "19, 20, K","20, 19, K"],
     rightAnswer: "19, 20, K"
 }
-    
-   
 
 var questionBank = [question1, question2, question3, question4, question5, question6, question7, question8];
 
 
-startButton.addEventListener("click", startGame);
 
+//Displays questions randomly with random answers. Sets evenet listeners to right and wrong answers
 function displayQuestion () {
     if(questionBank.length===0){
         return;
@@ -120,8 +118,8 @@ function displayQuestion () {
 
     
   
-     
-     function answerRight(){
+// If right, adds to count (correct answers) and the total questions answered.    
+function answerRight(){
             
             count++;
             questionsAnswered++;
@@ -130,7 +128,8 @@ function displayQuestion () {
             resetQuestion();
             
         } 
-    function answerWrong(){
+// If wrong, adds to total questions answered and subtracts 5 seconds from the clock
+function answerWrong(){
           
            questionsAnswered++;
             secondsLeft -=5;
@@ -142,19 +141,15 @@ function displayQuestion () {
         
     }
 
+    // clears out previous question and displays a new question
     function resetQuestion(){
-       /* if (questionBank.length ===0){
-            endGame();
-        }else{*/
         quizArea.innerHTML= "";
         displayQuestion();
-    }  
+    }
 
-
+//clearsquiz area and displays form.
 function endGame(){
     quizArea.innerHTML="";
-   // question.remove();
-    //var initials = prompt("enter your initials")
     form.style.display="block";
     timeEl.innerHTML="";
     gameProgress.textContent="";
@@ -164,6 +159,8 @@ function endGame(){
 }
 
 var scoreList = JSON.parse(localStorage.getItem("roundStats")) || [];
+
+//Stores data from form into local storage. The favorite element stored variable may be used for something in the future. 
 function storeInfo(){
     
     var initials = document.querySelector("#initials").value;
@@ -187,12 +184,14 @@ function storeInfo(){
     } else {
         alert("Congratulations, "+ initials + " you answered " + count +" questions correctly. You scored " + score +" points.") 
     }
-    startButton.style.display = "block";
+    startButton.style.display = "block";  
+}
     
-    
-    
-    
-    //localStorage.setItem("initials", initials);
+   
+submitButton.addEventListener("click", storeInfo)  
+//getHighScores.addEventListener("click", getHighScores)
+
+//localStorage.setItem("initials", initials);
     //localStorage.setItem("score", score);
     
    
@@ -202,13 +201,7 @@ function storeInfo(){
    // var yourScores = document.createElement("h3");
    // yourScores.textContent = initials + " scored " + score + " points and got " + count +" questions right!";
    // highScores.appendChild(yourScores);
-    
-    
-}
-    
-   
-highScoreButton.addEventListener("click", storeInfo)  
-//getHighScores.addEventListener("click", getHighScores)
+
 
 function getHighScores () {
     var Scores = localStorage.getItem("max(highscores)")
@@ -226,7 +219,7 @@ function getHighScores () {
 
 
 
-
+//Starts timer at beginning of the game. Ends timer when all questions have been answered or time is 0.
 function startTimer() {
     var timerInterval = setInterval(function (){
        secondsLeft--; 
@@ -245,7 +238,7 @@ function startTimer() {
     }
 
     
-
+// Starts timer and beginning conditions if on replay.
 function startGame() {
     
     startButton.style.display ="none";
