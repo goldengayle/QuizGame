@@ -4,11 +4,11 @@ var timeEl = document.querySelector(".timer")
 var form =document.querySelector("form")
 var question =document.createElement("h2");
 var timerInterval = "";
-var secondsLeft = 20;
+var secondsLeft = 60;
 var highScores =document.querySelector(".highScores")
 var count=0;
 var questionsAnswered=0;
-var questionAmount = 3;
+var questionAmount = 8;
 var progress = document.querySelector(".progress")
 var questionSuccess = document.createElement("h3");
 var gameProgress = document.createElement("h3");
@@ -42,7 +42,42 @@ var question3 =  {
     answers: [5,8,9,13],
     rightAnswer: 9
 }
-var questionBank = [question1, question2, question3];
+
+var question4 = {
+    question: "The atomic number",
+    answers: ["Tells you what can and cannot move in an atom","Orbits the center proton", "States how many quarks are in the nucleus", "Is the same as the amount of protons"],
+    rightAnswer: "Is the same as the amount of protons"
+
+}
+
+var question5 ={
+    question:"What is the charge on an atom with 10 protons and 8 electrons?",
+    answers:[+2, -1, +10, "Neutral"],
+    rightAnswer:+2
+}
+
+var question6 ={
+    question: "If the atomic number of an element is 6 and its mass number is 13, how many protons are contained in the nucleus?",
+    answers:[6, 7, 8, 13],
+    rightAnswer:6
+    
+}
+
+var question7 ={
+    question:"A hydrogen atom is made up of one proton and one electron. The proton and electron stay near each other because",
+    answers: ["Positive and negative charges repel", "Positive and positive charges repel", "Positive and negative charges attract", "Two negatives make a positive"],
+    rightAnswer: "Positive and negative charges attract"
+}
+
+var question8 ={
+    question:"The atomic number of a certain element is 19, and its atomic weight is 39. An atom of the element contains _____ protons, _____ neutrons, and the chemical symbol for the element is _____.",
+    answers:["19, 19, F", "19, 20, F", "19, 20, K","20, 19, K"],
+    rightAnswer: "19, 20, K"
+}
+    
+   
+
+var questionBank = [question1, question2, question3, question4, question5, question6, question7, question8];
 
 
 startButton.addEventListener("click", startGame);
@@ -98,8 +133,8 @@ function displayQuestion () {
     function answerWrong(){
           
            questionsAnswered++;
-            secondsLeft -=4;
-            questionSuccess.textContent="Incorrect. Please study this concept. You lost 4 seconds";
+            secondsLeft -=5;
+            questionSuccess.textContent="Incorrect. Please study this concept. You lost 5 seconds";
             gameProgress.textContent="You've answered " + count + " out of " + questionsAnswered + " correct!";
             resetQuestion();
 
@@ -134,13 +169,24 @@ function storeInfo(){
     var initials = document.querySelector("#initials").value;
     var score = secondsLeft*100*count
     var faveE =document.querySelector("#faveE").value;
+
+    if (initials === ""){
+        initials ="Future Chemist";
+    }
+    if(faveE ===""){
+        faveE="Vibranium";
+    }
    
     
     scoreList.push({initials:initials, score:score, faveE:faveE});
     localStorage.setItem("roundStats", JSON.stringify(scoreList));
 
     clearTimeout(startTimer); 
-    alert("Congratulations, "+ initials + " you answered " + count +" questions correctly. You scored " + score +" points.") 
+    if (count === 1){
+    alert("Congratulations, "+ initials + " you answered " + count +" question correctly. You scored " + score +" points.") 
+    } else {
+        alert("Congratulations, "+ initials + " you answered " + count +" questions correctly. You scored " + score +" points.") 
+    }
     startButton.style.display = "block";
     
     
@@ -162,7 +208,7 @@ function storeInfo(){
     
    
 highScoreButton.addEventListener("click", storeInfo)  
-getHighScores.addEventListener("click", getHighScores)
+//getHighScores.addEventListener("click", getHighScores)
 
 function getHighScores () {
     var Scores = localStorage.getItem("max(highscores)")
@@ -208,11 +254,21 @@ function startGame() {
         question1.answers =[];
         question2.answers=[];
         question3.answers=[];
-        questionBank.push(question1, question2, question3);
+        question4.answers=[];
+        question5.answers=[];
+        question6.answers=[];
+        question7.answers=[];
+        question8.answers =[];
+        questionBank.push(question1, question2, question3, question4, question5, question6, question7, question8);
         question1.answers.push("Proton", "Neutron", "Electron","Quark")
         question2.answers.push("different atomic numbers", "different numbers of neutrons","different numbers of protons","different numbers of electrons")
         question3.answers.push(5,8,9,13);
-        secondsLeft=20;
+        question4.answers.push("Tells you what can and cannot move in an atom","Orbits the center proton", "States how many quarks are in the nucleus", "Is the same as the amount of protons");
+        question5.answers.push(+2, -1, +10, "Neutral");
+        question6.answers.push(6, 7, 8, 13);
+        question7.answers.push("Positive and negative charges repel", "Positive and positive charges repel", "Positive and negative charges attract", "Two negatives make a positive");
+        question8.answers.push("19, 19, F", "19, 20, F", "19, 20, K","20, 19, K");
+        secondsLeft=60;
         count=0;
         questionsAnswered=0;
          displayQuestion();
