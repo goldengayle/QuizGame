@@ -16,7 +16,9 @@ gameProgress.textContent="";
 questionSuccess.textContent="";
 progress.appendChild(questionSuccess);
 progress.appendChild(gameProgress);
-var score 
+var score ; 
+var initials="";
+var faveE="";
 
 var highScoreButton= document.querySelector(".hsButton")
 
@@ -90,7 +92,6 @@ function displayQuestion () {
             questionsAnswered++;
             questionSuccess.textContent="Correct! Great job!"; 
             gameProgress.textContent="You've answered " + count + " out of " + questionsAnswered + " correct!";
-            console.log(count);
             resetQuestion();
             
         } 
@@ -127,24 +128,17 @@ function endGame(){
    
 }
 
-
+var scoreList = JSON.parse(localStorage.getItem("roundStats")) || [];
 function storeInfo(){
-    debugger
-    var scoreList = JSON.parse(localStorage.getItem("roundStats"))
-    console.log(scoreList)
+    
     var initials = document.querySelector("#initials").value;
     var score = secondsLeft*100*count
     var faveE =document.querySelector("#faveE").value;
-    var highScoreObject = {
-        initials: initials,
-        score:score,
-        faveE: faveE,
-    }
+   
     
-    var scoreArray = [scoreList]
-    scoreArray = scoreArray.push(highScoreObject);
-    console.log(scoreArray)
-    localStorage.setItem("roundStats",JSON.stringify(scoreArray));
+    scoreList.push({initials:initials, score:score, faveE:faveE});
+    localStorage.setItem("roundStats", JSON.stringify(scoreList));
+
     clearTimeout(startTimer); 
     alert("Congratulations, "+ initials + " you answered " + count +" questions correctly. You scored " + score +" points.") 
     startButton.style.display = "block";
@@ -168,14 +162,14 @@ function storeInfo(){
     
    
 highScoreButton.addEventListener("click", storeInfo)  
-//getHighScores.addEventListener("click", getHighScores)
+getHighScores.addEventListener("click", getHighScores)
 
-/*function getHighScores () {
+function getHighScores () {
     var Scores = localStorage.getItem("max(highscores)")
     console.log(highestScore)
     var lastScores = JSON.parse(localStorage.getItem("roundStats"));
     console.log(lastScores)
-}*/
+}
     
         
     
