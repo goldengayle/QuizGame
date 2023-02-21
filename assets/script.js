@@ -21,6 +21,7 @@ var score ;
 var initials="";
 var faveE="";
 var submitButton= document.querySelector(".submitButton")
+var hsButton =document.querySelector(".hsButton")
 
 
 
@@ -189,7 +190,7 @@ function storeInfo(){
     
    
 submitButton.addEventListener("click", storeInfo)  
-//getHighScores.addEventListener("click", getHighScores)
+hsButton.addEventListener("click", getHighScores)
 
 //localStorage.setItem("initials", initials);
     //localStorage.setItem("score", score);
@@ -204,10 +205,10 @@ submitButton.addEventListener("click", storeInfo)
 
 
 function getHighScores () {
-    var Scores = localStorage.getItem("max(highscores)")
-    console.log(highestScore)
-    var lastScores = JSON.parse(localStorage.getItem("roundStats"));
-    console.log(lastScores)
+    var Scores = JSON.parse(localStorage.getItem("roundStats"));
+    console.log(Scores)
+    var sortScores = Scores.sort((s1, s2) => (s1.score < s2.score)? 1 : (s1.score > s2.score) ?-1: 0);
+    console.log(sortScores);
 }
     
         
