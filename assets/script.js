@@ -1,6 +1,7 @@
 var startButton = document.querySelector(".start-button");
 var quizArea = document.querySelector(".quiz-area");
 var timeEl = document.querySelector(".timer")
+var form =document.querySelector("form")
 var question =document.createElement("h2");
 var timerInterval = "";
 var secondsLeft = 20;
@@ -8,10 +9,17 @@ var highScores =document.querySelector(".highScores")
 var count=0;
 var questionsAnswered=0;
 var questionAmount = 3;
-/*var progress = document.querySelector(".progress")
+var progress = document.querySelector(".progress")
 var questionSuccess = document.createElement("h3");
-questionSuccess.textContent("none");
-progress.appendChild(questionSuccess);*/
+var gameProgress = document.createElement("h3");
+gameProgress.textContent="";
+questionSuccess.textContent="";
+progress.appendChild(questionSuccess);
+progress.appendChild(gameProgress);
+var score 
+
+var highScoreButton= document.querySelector(".hsButton")
+
 
 
 
@@ -38,9 +46,9 @@ var questionBank = [question1, question2, question3];
 startButton.addEventListener("click", startGame);
 
 function displayQuestion () {
-    /*if(secondsLeft===0){
-        endGame();
-    }else{*/
+    if(questionBank.length===0){
+        return;
+    }else{
 
     var thisQuestion = questionBank[Math.floor(Math.random()* questionBank.length)];
     var takeOut = questionBank.indexOf(thisQuestion);
@@ -71,23 +79,27 @@ function displayQuestion () {
             wrongEl[i].addEventListener('click', answerWrong)}
     }
 
-    
+}
 
     
   
      
      function answerRight(){
-            //questionSuccess.innerHTML("Correct!") 
+            
             count++;
             questionsAnswered++;
+            questionSuccess.textContent="Correct! Great job!"; 
+            gameProgress.textContent="You've answered " + count + " out of " + questionsAnswered + " correct!";
             console.log(count);
             resetQuestion();
             
         } 
     function answerWrong(){
-           //questionSuccess.textContent("You got it wrong. You lost 4 seconds");
+          
            questionsAnswered++;
             secondsLeft -=4;
+            questionSuccess.textContent="Incorrect. Please study this concept. You lost 4 seconds";
+            gameProgress.textContent="You've answered " + count + " out of " + questionsAnswered + " correct!";
             resetQuestion();
 
             
@@ -105,22 +117,65 @@ function displayQuestion () {
 
 function endGame(){
     quizArea.innerHTML="";
-    var initials = prompt("enter your initials")
-    var score = secondsLeft*100*count
+   // question.remove();
+    //var initials = prompt("enter your initials")
+    form.style.display="block";
     timeEl.innerHTML="";
-    var yourScores = document.createElement("h3");
-    yourScores.textContent = initials + " scored " + score + " points and got " + count +" questions right!";
-    highScores.appendChild(yourScores);
-    localStorage.setItem("initials", initials);
-    localStorage.setItem("score", score);
+    gameProgress.textContent="";
+    questionSuccess.textContent="";
+    
+   
+}
+
+
+function storeInfo(){
+    debugger
+    var scoreList = JSON.parse(localStorage.getItem("roundStats"))
+    console.log(scoreList)
+    var initials = document.querySelector("#initials").value;
+    var score = secondsLeft*100*count
+    var faveE =document.querySelector("#faveE").value;
+    var highScoreObject = {
+        initials: initials,
+        score:score,
+        faveE: faveE,
+    }
+    
+    var scoreArray = [scoreList]
+    scoreArray = scoreArray.push(highScoreObject);
+    console.log(scoreArray)
+    localStorage.setItem("roundStats",JSON.stringify(scoreArray));
+    clearTimeout(startTimer); 
+    alert("Congratulations, "+ initials + " you answered " + count +" questions correctly. You scored " + score +" points.") 
     startButton.style.display = "block";
     
     
-    clearTimeout(startTimer);  
+    
+    
+    //localStorage.setItem("initials", initials);
+    //localStorage.setItem("score", score);
+    
+   
+    
+    
+    
+   // var yourScores = document.createElement("h3");
+   // yourScores.textContent = initials + " scored " + score + " points and got " + count +" questions right!";
+   // highScores.appendChild(yourScores);
+    
+    
 }
     
    
-   
+highScoreButton.addEventListener("click", storeInfo)  
+//getHighScores.addEventListener("click", getHighScores)
+
+/*function getHighScores () {
+    var Scores = localStorage.getItem("max(highscores)")
+    console.log(highestScore)
+    var lastScores = JSON.parse(localStorage.getItem("roundStats"));
+    console.log(lastScores)
+}*/
     
         
     
@@ -176,6 +231,3 @@ function startGame() {
 
   
   startButton.addEventListener("click", startGame)
-  
-  
-  

@@ -1,5 +1,19 @@
+header{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items:center;
+
+}
+
+form{
+    display:none;
+}
+
+
 ul{
     display:flex;
+    justify-content:center;
 }
 li{
     
@@ -14,5 +28,11 @@ li{
 
 li:hover{
     cursor:grab;
+}
+
+.progress{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
 }
 
