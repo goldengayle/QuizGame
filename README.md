@@ -6,7 +6,7 @@ This project is a quiz to test students on their understanding of atomic structu
 ## Usage
 AS A USER I want to make sure my students understand atomic structure. This program allows them to answer questions, which have been randomized in order and in their answer options. Initials, score, and the users favorite element are stored (the latter property for a future use). 
 <br><a href="https://goldengayle.github.io/QuizGame/"> Quiz Game</a>
-<br><img src="quizgame.png" alt="screenshot of password generator">
+<br><img src="quizgame.png" alt="screenshot of chemistry quiz">
 
 ## Installation
 N/A
