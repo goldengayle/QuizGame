@@ -6,33 +6,72 @@ header{
 
 }
 
+h1{
+    background-color:cornflowerblue;
+    color:white; 
+    padding: 10px;
+    width:100%;
+}
+
 form{
     display:none;
 }
 
+.clearScores{
+    display:none;
+}
 
+.info .{
+    position: relative;
+
+
+}
+
+h2{
+    border: 2px dotted;
+    padding: 10px;
+}
+
+.quiz-area{
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+
+.highScores{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+ol{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    list-style-type: decimal;
+}
 ul{
     display:flex;
     justify-content:center;
 }
-li{
+li.answer{
     
    margin:20px;
     justify-content:space-around;
     background-color: cornflowerblue;
     color: white;
     padding:10px;
-    border-radius: 20%;
+    border-radius: 10%;
 }
 
 
-li:hover{
+li.answer:hover{
     cursor:grab;
 }
 
 .progress{
     display:flex;
     flex-direction: column;
-    justify-content:center;
+    align-items:center;
 }
 

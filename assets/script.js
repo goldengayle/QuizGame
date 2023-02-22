@@ -22,7 +22,13 @@ var initials="";
 var faveE="";
 var submitButton= document.querySelector(".submitButton")
 var hsButton =document.querySelector(".hsButton")
-
+var clearScores = document.querySelector(".clearScores")
+var chemScore = document.querySelector(".last-input")
+var Scores = JSON.parse(localStorage.getItem("roundStats"));
+var highHead =document.createElement("h2")
+var sortScores ="";
+var highList = document.createElement("ol")
+var highSc=""
 
 
 //Set Questions
@@ -155,6 +161,11 @@ function endGame(){
     timeEl.innerHTML="";
     gameProgress.textContent="";
     questionSuccess.textContent="";
+    var yourScore = document.createElement("p")
+    chemScore.appendChild(yourScore);
+    var score = secondsLeft*100*count
+    yourScore.textContent = score + " points"
+    
     
    
 }
@@ -163,22 +174,17 @@ var scoreList = JSON.parse(localStorage.getItem("roundStats")) || [];
 
 //Stores data from form into local storage. The favorite element stored variable may be used for something in the future. 
 function storeInfo(){
-    
     var initials = document.querySelector("#initials").value;
     var score = secondsLeft*100*count
     var faveE =document.querySelector("#faveE").value;
-
-    if (initials === ""){
-        initials ="Future Chemist";
+     if (initials === ""){
+        initials ="FC";
     }
     if(faveE ===""){
         faveE="Vibranium";
     }
-   
-    
     scoreList.push({initials:initials, score:score, faveE:faveE});
     localStorage.setItem("roundStats", JSON.stringify(scoreList));
-
     clearTimeout(startTimer); 
     if (count === 1){
     alert("Congratulations, "+ initials + " you answered " + count +" question correctly. You scored " + score +" points.") 
@@ -191,26 +197,45 @@ function storeInfo(){
    
 submitButton.addEventListener("click", storeInfo)  
 hsButton.addEventListener("click", getHighScores)
+clearScores.addEventListener("click", clearHighScores)
 
-//localStorage.setItem("initials", initials);
-    //localStorage.setItem("score", score);
-    
-   
-    
-    
-    
-   // var yourScores = document.createElement("h3");
-   // yourScores.textContent = initials + " scored " + score + " points and got " + count +" questions right!";
-   // highScores.appendChild(yourScores);
+
 
 
 function getHighScores () {
-    var Scores = JSON.parse(localStorage.getItem("roundStats"));
-    console.log(Scores)
+    
+    if (Scores=== null){
+        highScores.appendChild(highHead);
+         highHead.textContent = "No Score History"
+        hsButton.style.display="none";
+         clearScores.style.display="block";
+    } else {
     var sortScores = Scores.sort((s1, s2) => (s1.score < s2.score)? 1 : (s1.score > s2.score) ?-1: 0);
     console.log(sortScores);
-}
+    highScores.appendChild(highHead);
+    highHead.textContent = "High Score History"
     
+    
+    highScores.appendChild(highList);
+    
+
+    for(i=0; i< sortScores.length; i++){
+        var highSc = sortScores[i].initials + " scored "+ sortScores[i].score + " points ";
+        var scItem = document.createElement("li");
+        highList.appendChild(scItem);
+        scItem.textContent=highSc;
+    }
+    hsButton.style.display="none";
+    clearScores.style.display="block";
+    
+}
+}
+function clearHighScores() {
+    clearScores.style.display="none";
+    hsButton.style.display="block";
+    highScores.innerHTML="";
+
+}
         
     
    

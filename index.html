@@ -11,6 +11,7 @@
     <header>
         <div class="high-score">
             <button class="hsButton">See High Scores </button>
+            <button class="clearScores"> Clear Scores</button>
         </div>
         <h3 class="timer"></h3>
         <h1> Atomic Structure Quiz</h1>
@@ -18,14 +19,16 @@
      </header>
      <div class="quiz-area"> </div>
      <div class="progress"></div>
-     <div class="form" display=none>
+     <div class="form">
         <form class="enterStats">
             <div class ="input-group">
                 <label>Initials</label>
-                <input type="text" id="initials" placeholder="Future Chemist"/>
+                <input type="text" id="initials" placeholder="Future Chemist" maxlength="3"/>
             </div>
-            <div class="input-group">
+            <br>
+            <div class="input-group last-input">
                 <label> Favorite Element</label>
+                <!--This input is for a future use-->
                 <input type="text" id="faveE" placeholder="Vibranium"/>
             </div>
             <button class="submitButton">Submit</button>
